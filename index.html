@@ -3,78 +3,1727 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ULTIMA Bookmarks</title>
+  <title>ULTIMA Bookmark Manager</title>
   <style>
-    .ultima-bookmarks-container {
+    body {
+      background: linear-gradient(to bottom right, #111827, #1f2937);
+      color: #f9fafb;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      touch-action: manipulation;
+    }
+    header {
+      background: #1f2937;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      color: #f9fafb;
+    }
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      text-shadow: 0 0 10px currentColor;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brain-icon {
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .toolbar {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .toolbar-actions {
+      margin-left: auto;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .toolbar input,
+    .toolbar select,
+    .toolbar button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      font-weight: bold;
+      padding: 0.5rem 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      height: 40px;
+      box-sizing: border-box;
+    }
+    .toolbar button {
+      min-width: 80px;
+      text-align: center;
+    }
+    .toolbar button:hover {
+      background: #1e40af;
+    }
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1rem;
+    }
+    .section {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+      min-width: 240px;
+      min-height: 200px;
+      max-width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      font-family: Arial, sans-serif;
-      font-size: 10px;
+      color: #f9fafb;
+      transition: outline 0.3s ease;
+      resize: both;
+      overflow: auto;
+    }
+    .note-section {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+      min-width: 240px;
+      min-height: 200px;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      color: #f9fafb;
+      transition: outline 0.3s ease;
+      resize: both;
+      overflow: auto;
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      gap: 0.5rem;
+    }
+    .section-title-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      padding: 0.4rem 1rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(139, 92, 246, 0.7);
+      position: relative;
+      overflow: hidden;
+    }
+    .note-title-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: linear-gradient(135deg, #10b981, #059669);
+      padding: 0.4rem 1rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
+      position: relative;
+      overflow: hidden;
+    }
+    .section-title {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #fff;
+      text-shadow: 1px 1px 2px #000;
+      cursor: pointer;
+      flex-grow: 1;
+      text-align: center;
+    }
+    .section-title-input {
+      font-weight: bold;
+      font-size: 1.2rem;
+      padding: 0.4rem 1rem;
+      border-radius: 12px;
+      text-align: center;
+      border: none;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      box-shadow: 0 0 10px rgba(139, 92, 246, 0.7);
+      text-shadow: 1px 1px 2px #000;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .note-title-input {
+      font-weight: bold;
+      font-size: 1.2rem;
+      padding: 0.4rem 1rem;
+      border-radius: 12px;
+      text-align: center;
+      border: none;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
+      text-shadow: 1px 1px 2px #000;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .link-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 0.5rem;
+    }
+    .note-content {
+      flex-grow: 1;
+      padding: 0.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      min-height: 100px;
+      outline: none;
+      overflow-y: auto;
+    }
+    .note-toolbar {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .note-toolbar button {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 4px;
+      padding: 0.3rem 0.6rem;
+      color: white;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .note-toolbar button:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .note-toolbar select {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 4px;
+      padding: 0.3rem 0.6rem;
+      color: white;
+      cursor: pointer;
+    }
+    .link-item {
+      background: #f8f9fa;
+      padding: 0.5rem;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    .section.edit-active .link-item:hover {
+      background: #d1d5db;
+    }
+    .link-actions {
+      display: none;
+      gap: 0.25rem;
+      transition: opacity 0.3s ease;
+    }
+    .section.edit-active .link-actions {
+      display: flex !important;
+      opacity: 1;
+    }
+    .add-link-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.5rem;
+    }
+    .add-link-form input {
+      flex: 1 1 40%;
+      padding: 0.4rem;
+      border-radius: 6px;
+      border: 1px solid #999;
+      background-color: #f3f4f6;
+      color: #111827;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .add-link-form button {
+      padding: 0.4rem 0.8rem;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      flex: 1;
+    }
+    .add-link-form button:hover {
+      background-color: #1e7e34;
+    }
+    .section.edit-active {
+      outline: 2px dashed #3b82f6;
+    }
+    .note-section.edit-active {
+      outline: 2px dashed #3b82f6;
+    }
+    .link-item a {
+      display: flex;
+      align-items: center;
+      color: #111827;
+      text-decoration: none;
+      flex-grow: 1;
+      padding: 0.2rem 0.4rem;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      height: 100%;
+      line-height: 1.5;
+    }
+    .link-item a:hover {
+      color: #fff;
+      background: #4f46e5;
+      box-shadow: 0 0 8px rgba(99, 102, 241, 0.8);
+    }
+    .favicon {
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+    }
+    .hidden-inputs {
+      display: none;
+      position: absolute;
+      background: #1f2937;
+      padding: 0.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      z-index: 10;
+      min-width: 200px;
+      right: 0;
+    }
+    .toolbar-button {
+      position: relative;
+      height: 40px;
+    }
+    .section-close {
+      cursor: pointer;
+      color: #fca5a5;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .section-close:hover {
+      background: rgba(252, 165, 165, 0.2);
+      box-shadow: 0 0 5px rgba(252, 165, 165, 0.5);
+    }
+    .section-move {
+      cursor: pointer;
+      color: #93c5fd;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .section-move:hover {
+      background: rgba(147, 197, 253, 0.2);
+      box-shadow: 0 0 5px rgba(147, 197, 253, 0.5);
+    }
+    .tab-close {
+      cursor: pointer;
+      color: #fca5a5;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .tab-close:hover {
+      background: rgba(252, 165, 165, 0.2);
+      box-shadow: 0 0 5px rgba(252, 165, 165, 0.5);
+    }
+    .tab-edit {
+      cursor: pointer;
+      color: #93c5fd;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .tab-edit:hover {
+      background: rgba(147, 197, 253, 0.2);
+      box-shadow: 0 0 5px rgba(147, 197, 253, 0.5);
+    }
+    .dragging {
+      opacity: 0.5;
+    }
+    .theme-list {
+      display: none;
+      position: absolute;
+      background: #1f2937;
+      padding: 0.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      z-index: 10;
+      right: 0;
+      min-width: 200px;
+    }
+    .theme-item {
+      padding: 0.5rem;
+      cursor: pointer;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+    }
+    .theme-item:hover {
+      background: #374151;
+    }
+    .theme-color {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      margin-right: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .edit-link-input {
+      padding: 0.4rem;
+      border-radius: 6px;
+      border: 1px solid #999;
+      background-color: #f3f4f6;
+      color: #111827;
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 0.4rem;
+    }
+    .edit-link-buttons {
+      display: flex;
+      gap: 0.4rem;
+    }
+    .edit-link-save {
+      background: #ffc107;
+      color: #000;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 0;
+    }
+    .edit-link-cancel {
+      background: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+    .checklist-item input[type="checkbox"] {
       margin: 0;
     }
-
-    .ultima-bookmark-group {
-      padding: 0;
-      margin: 0 0 6px 0;
-    }
-
-    .ultima-group-header {
-      font-weight: bold;
-      font-size: 12px;
-      padding: 2px 2px;
-      margin-bottom: 2px;
-      color: #d4f5ff;
-      border: 1.5px solid rgba(0, 200, 255, 0.3);
-      border-radius: 25px;
-      box-shadow: 0 0 2px 0.6px rgba(0, 200, 255, 0.15);
-      background-color: rgba(0, 200, 255, 0.05);
-    }
-
-    .ultima-group-links {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 4px;
-    }
-
-    .ultima-group-links a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 3px;
-      text-decoration: none;
-      color: #c7eaff;
-      padding: 2px 6px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      font-size: 11px;
-      border-radius: 10px;
-      transition: all 0.2s ease-in-out;
-      width: fit-content;
-    }
-
-    .ultima-group-links a:hover {
-      border: 1px solid rgba(0, 200, 255, 0.4);
-      box-shadow: 0 0 2px rgba(0, 200, 255, 0.3);
-      background-color: rgba(0, 200, 255, 0.07);
-      transform: scale(1.03);
-      z-index: 1;
-    }
-
-    .ultima-group-links img {
-      width: 11px;
-      height: 11px;
-      flex-shrink: 0;
+    @media (max-width: 768px) {
+      .toolbar {
+        flex-direction: column;
+      }
+      .toolbar-actions {
+        margin-left: 0;
+        width: 100%;
+      }
+      .toolbar input, 
+      .toolbar button {
+        width: 100%;
+      }
+      .section {
+        min-width: 100%;
+        resize: none;
+      }
+      .note-section {
+        min-width: 100%;
+        resize: none;
+      }
+      .hidden-inputs {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- هنا يتم وضع كل المجموعات -->
-  <div class="ultima-bookmarks-container">
-    <!-- انسخ كل الأقسام: General, Work, AI, Social, Software, Games هنا -->
-    <!-- أنا ما نسختهم كلهم هنا عشان الحجم، لكن لو حابب أرسل لك ملف كامل بصيغة zip أو pastebin أو GitHub repo أعمله لك فورًا -->
-  </div>
+  <header>
+    <h1><span class="brain-icon">🧠</span> ULTIMA</h1>
+    <div class="toolbar">
+      <div id="tab-bar" style="display:flex; gap:0.4rem; flex-wrap:wrap;"></div>
+      
+      <div class="toolbar-actions">
+        <button id="toggle-all-edit">✏️ Toggle Edit</button>
+        
+        <div class="toolbar-button">
+          <button id="tab-button">➕ Tab</button>
+          <div class="hidden-inputs" id="tab-input">
+            <input id="new-tab" placeholder="New tab" style="width:100%; margin-bottom:0.5rem; background:#f9fafb; color:#111827; border:1px solid #ccc; border-radius:8px; padding:0.5rem">
+            <button onclick="addTab()" style="width:100%">Add Tab</button>
+          </div>
+        </div>
+        
+        <div class="toolbar-button">
+          <button id="section-button">➕ Section</button>
+          <div class="hidden-inputs" id="section-input">
+            <input id="section-name" placeholder="Section name" style="width:100%; margin-bottom:0.5rem; background:#f9fafb; color:#111827; border:1px solid #ccc; border-radius:8px; padding:0.5rem">
+            <button onclick="addSection()" style="width:100%">Add Section</button>
+          </div>
+        </div>
+        
+        <div class="toolbar-button">
+          <button id="note-button">📝 Note</button>
+          <div class="hidden-inputs" id="note-input">
+            <input id="note-name" placeholder="Note title" style="width:100%; margin-bottom:0.5rem; background:#f9fafb; color:#111827; border:1px solid #ccc; border-radius:8px; padding:0.5rem">
+            <button onclick="addNote()" style="width:100%">Add Note</button>
+          </div>
+        </div>
+        
+        <div class="toolbar-button">
+          <button id="theme-button">🎨 Themes</button>
+          <div class="theme-list" id="theme-list">
+            <div class="theme-item" onclick="applyTheme('default')">
+              <span class="theme-color" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);"></span> Default
+            </div>
+            <div class="theme-item" onclick="applyTheme('carbon')">
+              <span class="theme-color" style="background: linear-gradient(135deg, #171717, #404040);"></span> Carbon
+            </div>
+            <div class="theme-item" onclick="applyTheme('midnight')">
+              <span class="theme-color" style="background: linear-gradient(135deg, #020617, #0f172a);"></span> Midnight
+            </div>
+            <div class="theme-item" onclick="applyTheme('slate')">
+              <span class="theme-color" style="background: linear-gradient(135deg, #0f172a, #1e293b);"></span> Slate
+            </div>
+            <div class="theme-item" onclick="applyTheme('obsidian')">
+              <span class="theme-color" style="background: linear-gradient(135deg, #000000, #1a1a1a);"></span> Obsidian
+            </div>
+            <div class="theme-item" onclick="applyTheme('void')">
+              <span class="theme-color" style="background: linear-gradient(135deg, #000000, #111827);"></span> Void
+            </div>
+            <div class="theme-item" onclick="applyTheme('steel')">
+              <span class="theme-color" style="background: linear-gradient(135deg, #1e293b, #334155);"></span> Steel
+            </div>
+            <div class="theme-item" onclick="applyTheme('noir')">
+              <span class="theme-color" style="background: linear-gradient(135deg, #1a1a1a, #333333);"></span> Noir
+            </div>
+            <div class="theme-item" onclick="applyTheme('raven')">
+              <span class="theme-color" style="background: linear-gradient(135deg, #111827, #1e293b);"></span> Raven
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="grid" id="bookmark-container"></div>
+  </main>
+  <script>
+    let state = {
+      sections: { 'Main_Default': [ { title: 'OpenAI', url: 'https://openai.com' } ] },
+      notes: { 'Main_Note1': { content: 'Type your notes here...', checklist: [] } },
+      currentTab: 'Main',
+      allTabs: ['Main'],
+      faviconCache: {},
+      currentTheme: 'default',
+      layout: {}
+    };
+
+    // Initialize the app
+    function init() {
+      loadFromLocalStorage();
+      render();
+      setupEventListeners();
+    }
+
+    // Load from localStorage if available
+    function loadFromLocalStorage() {
+      const saved = localStorage.getItem('ultimaBookmarks');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          state.sections = parsed.sections || state.sections;
+          state.notes = parsed.notes || state.notes;
+          state.allTabs = parsed.allTabs || state.allTabs;
+          state.currentTab = parsed.currentTab || state.currentTab;
+          state.currentTheme = parsed.currentTheme || state.currentTheme;
+          state.layout = parsed.layout || state.layout;
+          
+          // Apply saved theme
+          applyTheme(state.currentTheme, true);
+        } catch (e) {
+          console.error('Failed to load saved bookmarks', e);
+        }
+      }
+    }
+
+    // Save to localStorage
+    function saveToLocalStorage() {
+      // Save layout information for sections and notes
+      saveLayout();
+      
+      localStorage.setItem('ultimaBookmarks', JSON.stringify({
+        sections: state.sections,
+        notes: state.notes,
+        allTabs: state.allTabs,
+        currentTab: state.currentTab,
+        currentTheme: state.currentTheme,
+        layout: state.layout
+      }));
+    }
+
+    // Save current layout
+    function saveLayout() {
+      const container = document.getElementById('bookmark-container');
+      const elements = container.children;
+      state.layout[state.currentTab] = [];
+      
+      for (let element of elements) {
+        const rect = element.getBoundingClientRect();
+        const style = window.getComputedStyle(element);
+        
+        state.layout[state.currentTab].push({
+          id: element.getAttribute('data-id'),
+          type: element.classList.contains('note-section') ? 'note' : 'section',
+          top: rect.top,
+          left: rect.left,
+          width: style.width,
+          height: style.height,
+          zIndex: style.zIndex
+        });
+      }
+    }
+
+    // Restore layout
+    function restoreLayout() {
+      if (!state.layout[state.currentTab]) return;
+      
+      const container = document.getElementById('bookmark-container');
+      const layout = state.layout[state.currentTab];
+      
+      for (let item of layout) {
+        const element = document.querySelector(`[data-id="${item.id}"]`);
+        if (element) {
+          element.style.position = 'absolute';
+          element.style.top = `${item.top}px`;
+          element.style.left = `${item.left}px`;
+          element.style.width = item.width;
+          element.style.height = item.height;
+          element.style.zIndex = item.zIndex;
+        }
+      }
+    }
+
+    // Main render function
+    function render() {
+      renderTabBar();
+      renderBookmarkContainer();
+      saveToLocalStorage();
+    }
+
+    // Render the tab bar
+    function renderTabBar() {
+      const tabBar = document.getElementById('tab-bar');
+      tabBar.innerHTML = '';
+      
+      state.allTabs.forEach((tab, index) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'tab-wrapper';
+        wrapper.setAttribute('draggable', true);
+        wrapper.setAttribute('data-tab', tab);
+        wrapper.style.display = 'flex';
+        wrapper.style.alignItems = 'center';
+        wrapper.style.gap = '4px';
+        
+        // Drag and drop handlers
+        wrapper.addEventListener('dragstart', handleTabDragStart);
+        wrapper.addEventListener('dragover', handleTabDragOver);
+        wrapper.addEventListener('drop', handleTabDrop);
+        wrapper.addEventListener('dragend', handleDragEnd);
+        
+        // Tab button
+        const btn = document.createElement('button');
+        btn.textContent = tab;
+        btn.onclick = () => switchTab(tab);
+        
+        // Style active tab
+        if (tab === state.currentTab) {
+          btn.style.background = '#4f46e5';
+          btn.style.boxShadow = '0 0 10px rgba(99,102,241,0.8)';
+          btn.style.transform = 'scale(1.05)';
+        } else {
+          btn.style.background = '#2563eb';
+          btn.style.boxShadow = 'none';
+          btn.style.transform = 'none';
+        }
+        
+        // Common button styles
+        btn.style.transition = 'all 0.2s ease-in-out';
+        btn.style.color = 'white';
+        btn.style.border = 'none';
+        btn.style.borderRadius = '8px';
+        btn.style.padding = '0.4rem 0.8rem';
+        btn.style.cursor = 'pointer';
+        btn.style.fontWeight = 'bold';
+        
+        // Create container for tab content and buttons
+        const tabContent = document.createElement('div');
+        tabContent.style.display = 'flex';
+        tabContent.style.alignItems = 'center';
+        tabContent.style.justifyContent = 'space-between';
+        tabContent.style.width = '100%';
+        
+        // Add tab text
+        const tabText = document.createElement('span');
+        tabText.textContent = tab;
+        tabText.style.flexGrow = '1';
+        tabText.style.textAlign = 'center';
+        
+        tabContent.appendChild(tabText);
+        
+        // Edit and close buttons in edit mode
+        if (document.body.classList.contains('global-edit') && tab !== 'Main') {
+          const edit = document.createElement('span');
+          edit.className = 'tab-edit';
+          edit.innerHTML = '✏️';
+          edit.onclick = (e) => {
+            e.stopPropagation();
+            editTabName(tab, tabText);
+          };
+          
+          const close = document.createElement('span');
+          close.className = 'tab-close';
+          close.innerHTML = '❌';
+          close.onclick = (e) => {
+            e.stopPropagation();
+            if (state.allTabs.length > 1) {
+              state.allTabs.splice(index, 1);
+              if (state.currentTab === tab) state.currentTab = state.allTabs[0];
+              // Remove all sections and notes for this tab
+              Object.keys(state.sections).forEach(key => {
+                if (key.startsWith(tab + '_')) {
+                  delete state.sections[key];
+                }
+              });
+              Object.keys(state.notes).forEach(key => {
+                if (key.startsWith(tab + '_')) {
+                  delete state.notes[key];
+                }
+              });
+              render();
+            }
+          };
+          
+          tabContent.appendChild(edit);
+          tabContent.appendChild(close);
+        }
+        
+        btn.innerHTML = '';
+        btn.appendChild(tabContent);
+        wrapper.appendChild(btn);
+        tabBar.appendChild(wrapper);
+      });
+    }
+
+    // Render the bookmark container
+    function renderBookmarkContainer() {
+      const container = document.getElementById('bookmark-container');
+      container.innerHTML = '';
+      
+      // Get sections for current tab
+      Object.entries(state.sections)
+        .filter(([key]) => key.startsWith(state.currentTab + '_'))
+        .forEach(([fullName, links]) => {
+          const name = fullName.slice(state.currentTab.length + 1);
+          const section = createSectionElement(name, links, fullName);
+          container.appendChild(section);
+        });
+      
+      // Get notes for current tab
+      Object.entries(state.notes)
+        .filter(([key]) => key.startsWith(state.currentTab + '_'))
+        .forEach(([fullName, noteData]) => {
+          const name = fullName.slice(state.currentTab.length + 1);
+          const note = createNoteElement(name, noteData, fullName);
+          container.appendChild(note);
+        });
+      
+      // Restore layout after rendering
+      setTimeout(() => {
+        restoreLayout();
+      }, 0);
+    }
+
+    // Create a section element
+    function createSectionElement(name, links, fullName) {
+      const section = document.createElement('div');
+      section.className = 'section';
+      section.setAttribute('data-section', name);
+      section.setAttribute('data-id', fullName);
+      
+      if (document.body.classList.contains('global-edit')) {
+        section.classList.add('edit-active');
+      }
+      
+      // Section header
+      const header = document.createElement('div');
+      header.className = 'section-header';
+      
+      // Section title wrapper
+      const titleWrapper = document.createElement('div');
+      titleWrapper.className = 'section-title-wrapper';
+      
+      // Section title
+      const title = document.createElement('div');
+      title.className = 'section-title';
+      title.textContent = name;
+      
+      // Double click to edit section name
+      if (document.body.classList.contains('global-edit')) {
+        title.addEventListener('dblclick', () => editSectionName(name, title));
+        
+        // Add move and close buttons
+        const moveLeft = document.createElement('span');
+        moveLeft.className = 'section-move';
+        moveLeft.innerHTML = '⬅️';
+        moveLeft.onclick = (e) => {
+          e.stopPropagation();
+          moveSection(fullName, 'left');
+        };
+        
+        const moveRight = document.createElement('span');
+        moveRight.className = 'section-move';
+        moveRight.innerHTML = '➡️';
+        moveRight.onclick = (e) => {
+          e.stopPropagation();
+          moveSection(fullName, 'right');
+        };
+        
+        const close = document.createElement('span');
+        close.className = 'section-close';
+        close.innerHTML = '❌';
+        close.onclick = (e) => {
+          e.stopPropagation();
+          delete state.sections[fullName];
+          render();
+        };
+        
+        titleWrapper.appendChild(moveLeft);
+        titleWrapper.appendChild(moveRight);
+        titleWrapper.appendChild(title);
+        titleWrapper.appendChild(close);
+      } else {
+        titleWrapper.appendChild(title);
+      }
+      
+      header.appendChild(titleWrapper);
+      section.appendChild(header);
+      
+      // Link list
+      const list = document.createElement('div');
+      list.className = 'link-list';
+      
+      links.forEach((link, idx) => {
+        const item = createLinkItem(link, name, idx);
+        list.appendChild(item);
+      });
+      
+      section.appendChild(list);
+      
+      // Add link form (only in edit mode)
+      if (document.body.classList.contains('global-edit')) {
+        const form = createAddLinkForm(name);
+        section.appendChild(form);
+      }
+      
+      return section;
+    }
+
+    // Create a note element
+    function createNoteElement(name, noteData, fullName) {
+      const note = document.createElement('div');
+      note.className = 'note-section';
+      note.setAttribute('data-note', name);
+      note.setAttribute('data-id', fullName);
+      
+      if (document.body.classList.contains('global-edit')) {
+        note.classList.add('edit-active');
+      }
+      
+      // Note header
+      const header = document.createElement('div');
+      header.className = 'section-header';
+      
+      // Note title wrapper
+      const titleWrapper = document.createElement('div');
+      titleWrapper.className = 'note-title-wrapper';
+      
+      // Note title
+      const title = document.createElement('div');
+      title.className = 'section-title';
+      title.textContent = name;
+      
+      // Double click to edit note name
+      if (document.body.classList.contains('global-edit')) {
+        title.addEventListener('dblclick', () => editNoteName(name, title));
+        
+        // Add move and close buttons
+        const moveLeft = document.createElement('span');
+        moveLeft.className = 'section-move';
+        moveLeft.innerHTML = '⬅️';
+        moveLeft.onclick = (e) => {
+          e.stopPropagation();
+          moveNote(fullName, 'left');
+        };
+        
+        const moveRight = document.createElement('span');
+        moveRight.className = 'section-move';
+        moveRight.innerHTML = '➡️';
+        moveRight.onclick = (e) => {
+          e.stopPropagation();
+          moveNote(fullName, 'right');
+        };
+        
+        const close = document.createElement('span');
+        close.className = 'section-close';
+        close.innerHTML = '❌';
+        close.onclick = (e) => {
+          e.stopPropagation();
+          delete state.notes[fullName];
+          render();
+        };
+        
+        titleWrapper.appendChild(moveLeft);
+        titleWrapper.appendChild(moveRight);
+        titleWrapper.appendChild(title);
+        titleWrapper.appendChild(close);
+      } else {
+        titleWrapper.appendChild(title);
+      }
+      
+      header.appendChild(titleWrapper);
+      note.appendChild(header);
+      
+      // Note content
+      const content = document.createElement('div');
+      content.className = 'note-content';
+      content.contentEditable = 'true';
+      content.innerHTML = noteData.content || 'Type your notes here...';
+      
+      content.addEventListener('input', () => {
+        state.notes[fullName].content = content.innerHTML;
+        saveToLocalStorage();
+      });
+      
+      note.appendChild(content);
+      
+      // Note toolbar (only in edit mode)
+      if (document.body.classList.contains('global-edit')) {
+        const toolbar = document.createElement('div');
+        toolbar.className = 'note-toolbar';
+        
+        // Format buttons
+        const boldBtn = document.createElement('button');
+        boldBtn.innerHTML = 'B';
+        boldBtn.onclick = () => document.execCommand('bold');
+        
+        const italicBtn = document.createElement('button');
+        italicBtn.innerHTML = 'I';
+        italicBtn.onclick = () => document.execCommand('italic');
+        
+        const underlineBtn = document.createElement('button');
+        underlineBtn.innerHTML = 'U';
+        underlineBtn.onclick = () => document.execCommand('underline');
+        
+        const fontSizeSelect = document.createElement('select');
+        fontSizeSelect.innerHTML = `
+          <option value="1">Small</option>
+          <option value="3" selected>Normal</option>
+          <option value="5">Large</option>
+          <option value="7">Huge</option>
+        `;
+        fontSizeSelect.onchange = () => {
+          document.execCommand('fontSize', false, fontSizeSelect.value);
+          content.focus();
+        };
+        
+        const colorInput = document.createElement('input');
+        colorInput.type = 'color';
+        colorInput.value = '#ffffff';
+        colorInput.oninput = () => {
+          document.execCommand('foreColor', false, colorInput.value);
+          content.focus();
+        };
+        
+        const bgColorInput = document.createElement('input');
+        bgColorInput.type = 'color';
+        bgColorInput.value = '#000000';
+        bgColorInput.oninput = () => {
+          document.execCommand('hiliteColor', false, bgColorInput.value);
+          content.focus();
+        };
+        
+        const checklistBtn = document.createElement('button');
+        checklistBtn.innerHTML = '✓ Checklist';
+        checklistBtn.onclick = () => {
+          const checklistId = 'checklist-' + Date.now();
+          const checklistItem = `<div class="checklist-item"><input type="checkbox" id="${checklistId}"><label for="${checklistId}">Item</label></div>`;
+          document.execCommand('insertHTML', false, checklistItem);
+          
+          // Save the checklist items
+          const checkboxes = content.querySelectorAll('.checklist-item input[type="checkbox"]');
+          state.notes[fullName].checklist = Array.from(checkboxes).map(cb => ({
+            id: cb.id,
+            checked: cb.checked,
+            text: cb.nextElementSibling.textContent
+          }));
+          saveToLocalStorage();
+          
+          content.focus();
+        };
+        
+        toolbar.append(
+          boldBtn, italicBtn, underlineBtn, 
+          fontSizeSelect, colorInput, bgColorInput,
+          checklistBtn
+        );
+        
+        note.appendChild(toolbar);
+      }
+      
+      return note;
+    }
+
+    // Move section left or right
+    function moveSection(sectionKey, direction) {
+      const sections = Object.keys(state.sections)
+        .filter(key => key.startsWith(state.currentTab + '_'));
+      
+      const currentIndex = sections.indexOf(sectionKey);
+      
+      if (direction === 'left' && currentIndex > 0) {
+        const prevSection = sections[currentIndex - 1];
+        swapElements(sectionKey, prevSection, 'sections');
+      } else if (direction === 'right' && currentIndex < sections.length - 1) {
+        const nextSection = sections[currentIndex + 1];
+        swapElements(sectionKey, nextSection, 'sections');
+      }
+    }
+
+    // Move note left or right
+    function moveNote(noteKey, direction) {
+      const notes = Object.keys(state.notes)
+        .filter(key => key.startsWith(state.currentTab + '_'));
+      
+      const currentIndex = notes.indexOf(noteKey);
+      
+      if (direction === 'left' && currentIndex > 0) {
+        const prevNote = notes[currentIndex - 1];
+        swapElements(noteKey, prevNote, 'notes');
+      } else if (direction === 'right' && currentIndex < notes.length - 1) {
+        const nextNote = notes[currentIndex + 1];
+        swapElements(noteKey, nextNote, 'notes');
+      }
+    }
+
+    // Swap two elements in the state
+    function swapElements(key1, key2, type) {
+      const temp = state[type][key1];
+      state[type][key1] = state[type][key2];
+      state[type][key2] = temp;
+      
+      render();
+    }
+
+    // Create a link item element
+    function createLinkItem(link, sectionName, index) {
+      const item = document.createElement('div');
+      item.className = 'link-item';
+      item.setAttribute('draggable', document.body.classList.contains('global-edit'));
+      
+      if (document.body.classList.contains('global-edit')) {
+        item.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', JSON.stringify({ 
+            type: 'link',
+            section: sectionName, 
+            index: index 
+          }));
+          item.classList.add('dragging');
+        });
+      }
+      
+      item.addEventListener('dragend', () => {
+        item.classList.remove('dragging');
+      });
+      
+      item.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.currentTarget.style.borderTop = '2px solid #007bff';
+      });
+      
+      item.addEventListener('dragleave', (e) => {
+        e.currentTarget.style.borderTop = '';
+      });
+      
+      item.addEventListener('drop', (e) => {
+        e.preventDefault();
+        e.currentTarget.style.borderTop = '';
+        
+        const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+        if (data.type !== 'link') return;
+        
+        const fromKey = `${state.currentTab}_${data.section}`;
+        const toKey = `${state.currentTab}_${sectionName}`;
+        
+        if (state.sections[fromKey] && state.sections[toKey]) {
+          const movedItem = state.sections[fromKey].splice(data.index, 1)[0];
+          const targetIndex = Array.from(e.currentTarget.parentNode.children).indexOf(e.currentTarget);
+          state.sections[toKey].splice(targetIndex, 0, movedItem);
+          render();
+        }
+      });
+      
+      // Create favicon
+      const favicon = document.createElement('img');
+      favicon.className = 'favicon';
+      favicon.src = getFaviconUrl(link.url);
+      favicon.onerror = () => {
+        favicon.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+      };
+      
+      // Create link
+      const a = document.createElement('a');
+      a.href = link.url;
+      a.textContent = link.title;
+      a.target = '_blank';
+      a.prepend(favicon);
+      
+      item.appendChild(a);
+      
+      // Add edit/delete buttons in edit mode
+      if (document.body.classList.contains('global-edit')) {
+        const actions = document.createElement('div');
+        actions.className = 'link-actions';
+        
+        const editBtn = document.createElement('button');
+        editBtn.innerHTML = '✏️';
+        editBtn.style.background = '#ffc107';
+        editBtn.style.color = '#000';
+        editBtn.style.border = 'none';
+        editBtn.style.padding = '0.3rem';
+        editBtn.style.borderRadius = '4px';
+        editBtn.style.cursor = 'pointer';
+        editBtn.style.width = '20px';
+        editBtn.style.height = '20px';
+        editBtn.style.display = 'flex';
+        editBtn.style.alignItems = 'center';
+        editBtn.style.justifyContent = 'center';
+        editBtn.onclick = () => editLink(link, sectionName, index, item);
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.innerHTML = '❌';
+        deleteBtn.style.background = '#dc3545';
+        deleteBtn.style.color = '#fff';
+        deleteBtn.style.border = 'none';
+        deleteBtn.style.padding = '0.3rem';
+        deleteBtn.style.borderRadius = '4px';
+        deleteBtn.style.cursor = 'pointer';
+        deleteBtn.style.width = '20px';
+        deleteBtn.style.height = '20px';
+        deleteBtn.style.display = 'flex';
+        deleteBtn.style.alignItems = 'center';
+        deleteBtn.style.justifyContent = 'center';
+        deleteBtn.onclick = () => {
+          state.sections[`${state.currentTab}_${sectionName}`].splice(index, 1);
+          render();
+        };
+        
+        actions.append(editBtn, deleteBtn);
+        item.appendChild(actions);
+      }
+      
+      return item;
+    }
+
+    // Create add link form
+    function createAddLinkForm(sectionName) {
+      const form = document.createElement('div');
+      form.className = 'add-link-form';
+      
+      const titleInput = document.createElement('input');
+      titleInput.placeholder = 'Title';
+      
+      const urlInput = document.createElement('input');
+      urlInput.placeholder = 'URL';
+      
+      const addBtn = document.createElement('button');
+      addBtn.textContent = 'Add';
+      addBtn.onclick = () => {
+        const title = titleInput.value.trim();
+        const url = urlInput.value.trim();
+        if (title && url) {
+          if (!state.sections[`${state.currentTab}_${sectionName}`]) {
+            state.sections[`${state.currentTab}_${sectionName}`] = [];
+          }
+          state.sections[`${state.currentTab}_${sectionName}`].push({ title, url });
+          titleInput.value = '';
+          urlInput.value = '';
+          render();
+        }
+      };
+      
+      form.append(titleInput, urlInput, addBtn);
+      return form;
+    }
+
+    // Edit a link
+    function editLink(link, sectionName, index, item) {
+      item.innerHTML = '';
+      
+      const titleInput = document.createElement('input');
+      titleInput.className = 'edit-link-input';
+      titleInput.value = link.title;
+      titleInput.placeholder = 'Title';
+      
+      const urlInput = document.createElement('input');
+      urlInput.className = 'edit-link-input';
+      urlInput.value = link.url;
+      urlInput.placeholder = 'URL';
+      
+      const buttonsWrapper = document.createElement('div');
+      buttonsWrapper.className = 'edit-link-buttons';
+      
+      const saveBtn = document.createElement('button');
+      saveBtn.className = 'edit-link-save';
+      saveBtn.innerHTML = '💾';
+      saveBtn.onclick = () => {
+        const newTitle = titleInput.value.trim();
+        const newUrl = urlInput.value.trim();
+        if (newTitle && newUrl) {
+          state.sections[`${state.currentTab}_${sectionName}`][index] = { 
+            title: newTitle, 
+            url: newUrl 
+          };
+          render();
+        }
+      };
+      
+      const cancelBtn = document.createElement('button');
+      cancelBtn.className = 'edit-link-cancel';
+      cancelBtn.innerHTML = '❌';
+      cancelBtn.onclick = render;
+      
+      buttonsWrapper.append(saveBtn, cancelBtn);
+      item.append(titleInput, urlInput, buttonsWrapper);
+    }
+
+    // Edit section name
+    function editSectionName(oldName, element) {
+      const input = document.createElement('input');
+      input.className = 'section-title-input';
+      input.value = oldName;
+      
+      input.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') saveSectionName();
+        if (e.key === 'Escape') render();
+      });
+      
+      document.addEventListener('click', outsideClickHandler);
+      
+      function saveSectionName() {
+        const newName = input.value.trim();
+        if (newName && newName !== oldName) {
+          const oldKey = `${state.currentTab}_${oldName}`;
+          const newKey = `${state.currentTab}_${newName}`;
+          state.sections[newKey] = state.sections[oldKey];
+          delete state.sections[oldKey];
+        }
+        cleanup();
+        render();
+      }
+      
+      function outsideClickHandler(e) {
+        if (!element.parentNode.contains(e.target)) {
+          saveSectionName();
+        }
+      }
+      
+      function cleanup() {
+        document.removeEventListener('click', outsideClickHandler);
+      }
+      
+      element.parentNode.replaceChild(input, element);
+      input.focus();
+    }
+
+    // Edit note name
+    function editNoteName(oldName, element) {
+      const input = document.createElement('input');
+      input.className = 'note-title-input';
+      input.value = oldName;
+      
+      input.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') saveNoteName();
+        if (e.key === 'Escape') render();
+      });
+      
+      document.addEventListener('click', outsideClickHandler);
+      
+      function saveNoteName() {
+        const newName = input.value.trim();
+        if (newName && newName !== oldName) {
+          const oldKey = `${state.currentTab}_${oldName}`;
+          const newKey = `${state.currentTab}_${newName}`;
+          state.notes[newKey] = state.notes[oldKey];
+          delete state.notes[oldKey];
+        }
+        cleanup();
+        render();
+      }
+      
+      function outsideClickHandler(e) {
+        if (!element.parentNode.contains(e.target)) {
+          saveNoteName();
+        }
+      }
+      
+      function cleanup() {
+        document.removeEventListener('click', outsideClickHandler);
+      }
+      
+      element.parentNode.replaceChild(input, element);
+      input.focus();
+    }
+
+    // Edit tab name
+    function editTabName(oldName, element) {
+      const input = document.createElement('input');
+      input.value = oldName;
+      input.style.background = '#4f46e5';
+      input.style.color = 'white';
+      input.style.border = 'none';
+      input.style.borderRadius = '8px';
+      input.style.padding = '0.4rem 0.8rem';
+      input.style.fontWeight = 'bold';
+      input.style.textAlign = 'center';
+      input.style.width = '100%';
+      
+      input.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') saveTabName();
+        if (e.key === 'Escape') render();
+      });
+      
+      document.addEventListener('click', outsideClickHandler);
+      
+      function saveTabName() {
+        const newName = input.value.trim();
+        if (newName && newName !== oldName && !state.allTabs.includes(newName)) {
+          const index = state.allTabs.indexOf(oldName);
+          state.allTabs[index] = newName;
+          
+          // Update section and note keys
+          Object.keys(state.sections).forEach(key => {
+            if (key.startsWith(oldName + '_')) {
+              const newKey = key.replace(oldName, newName);
+              state.sections[newKey] = state.sections[key];
+              delete state.sections[key];
+            }
+          });
+          Object.keys(state.notes).forEach(key => {
+            if (key.startsWith(oldName + '_')) {
+              const newKey = key.replace(oldName, newName);
+              state.notes[newKey] = state.notes[key];
+              delete state.notes[key];
+            }
+          });
+          
+          if (state.currentTab === oldName) {
+            state.currentTab = newName;
+          }
+        }
+        cleanup();
+        render();
+      }
+      
+      function outsideClickHandler(e) {
+        if (!element.parentNode.contains(e.target)) {
+          saveTabName();
+        }
+      }
+      
+      function cleanup() {
+        document.removeEventListener('click', outsideClickHandler);
+      }
+      
+      element.parentNode.replaceChild(input, element);
+      input.focus();
+    }
+
+    // Drag and drop handlers
+    function handleTabDragStart(e) {
+      e.dataTransfer.setData('text/plain', e.currentTarget.getAttribute('data-tab'));
+      e.currentTarget.classList.add('dragging');
+    }
+
+    function handleTabDragOver(e) {
+      e.preventDefault();
+    }
+
+    function handleTabDrop(e) {
+      e.preventDefault();
+      const draggedTab = e.dataTransfer.getData('text/plain');
+      const targetTab = e.currentTarget.getAttribute('data-tab');
+      
+      if (draggedTab !== targetTab) {
+        const draggedIndex = state.allTabs.indexOf(draggedTab);
+        const targetIndex = state.allTabs.indexOf(targetTab);
+        
+        state.allTabs.splice(draggedIndex, 1);
+        state.allTabs.splice(targetIndex, 0, draggedTab);
+        
+        render();
+      }
+    }
+
+    function handleDragEnd(e) {
+      e.currentTarget.classList.remove('dragging');
+    }
+
+    // Get favicon URL
+    function getFaviconUrl(url) {
+      try {
+        const domain = new URL(url).hostname;
+        if (state.faviconCache[domain]) {
+          return state.faviconCache[domain];
+        }
+        return `https://www.google.com/s2/favicons?domain=${domain}`;
+      } catch {
+        return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+      }
+    }
+
+    // Apply theme
+    function applyTheme(theme, initialLoad = false) {
+      const header = document.querySelector('header');
+      const h1 = document.querySelector('h1');
+      const toolbarButtons = document.querySelectorAll('.toolbar button');
+      const sectionTitles = document.querySelectorAll('.section-title-wrapper');
+      const noteTitles = document.querySelectorAll('.note-title-wrapper');
+      
+      // Reset to default first
+      document.body.style.background = 'linear-gradient(to bottom right, #111827, #1f2937)';
+      header.style.background = '#1f2937';
+      h1.style.color = '#8b5cf6';
+      toolbarButtons.forEach(btn => {
+        btn.style.background = '#2563eb';
+        btn.style.color = 'white';
+      });
+      sectionTitles.forEach(title => {
+        title.style.background = 'linear-gradient(135deg, #6366f1, #8b5cf6)';
+        title.style.boxShadow = '0 0 10px rgba(139, 92, 246, 0.7)';
+      });
+      noteTitles.forEach(title => {
+        title.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        title.style.boxShadow = '0 0 10px rgba(16, 185, 129, 0.7)';
+      });
+      
+      switch(theme) {
+        case 'carbon':
+          document.body.style.background = 'linear-gradient(to bottom right, #171717, #404040)';
+          header.style.background = '#404040';
+          h1.style.color = '#d4d4d4';
+          toolbarButtons.forEach(btn => {
+            btn.style.background = '#525252';
+            btn.style.color = 'white';
+          });
+          sectionTitles.forEach(title => {
+            title.style.background = 'linear-gradient(135deg, #525252, #737373)';
+            title.style.boxShadow = '0 0 10px rgba(115, 115, 115, 0.7)';
+          });
+          noteTitles.forEach(title => {
+            title.style.background = 'linear-gradient(135deg, #059669, #047857)';
+            title.style.boxShadow = '0 0 10px rgba(5, 150, 105, 0.7)';
+          });
+          break;
+        case 'midnight':
+          document.body.style.background = 'linear-gradient(to bottom right, #020617, #0f172a)';
+          header.style.background = '#0f172a';
+          h1.style.color = '#6366f1';
+          toolbarButtons.forEach(btn => {
+            btn.style.background = '#1e40af';
+            btn.style.color = 'white';
+          });
+          sectionTitles.forEach(title => {
+            title.style.background = 'linear-gradient(135deg, #1e40af, #1e3a8a)';
+            title.style.boxShadow = '0 0 10px rgba(30, 58, 138, 0.7)';
+          });
+          noteTitles.forEach(title => {
+            title.style.background = 'linear-gradient(135deg, #065f46, #064e3b)';
+            title.style.boxShadow = '0 0 10px rgba(6, 95, 70, 0.7)';
+          });
+          break;
+        case 'slate':
+          document.body.style.background = 'linear-gradient(to bottom right, #0f172a, #1e293b)';
+          header.style.background = '#1e293b';
+          h1.style.color = '#94a3b8';
+          toolbarButtons.forEach(btn => {
+            btn.style.background = '#475569';
+            btn.style.color = 'white';
+          });
+          sectionTitles.forEach(title => {
+            title.style.background = 'linear-gradient(135deg, #475569, #64748b)';
+            title.style.boxShadow = '0 0 10px rgba(100, 116, 139, 0.7)';
+          });
+          noteTitles.forEach(title => {
+            title.style.background = 'linear-gradient(135deg, #047857, #065f46)';
+            title.style.boxShadow = '0 0 10px rgba(4, 120, 87, 0.7)';
+          });
+          break;
+        case 'obsidian':
+          document.body.style.background = 'linear-gradient(to bottom right, #000000, #1a1a1a)';
+          header.style.background = '#1a1a1a';
+          h1.style.color = '#a1a1aa';
+          toolbarButtons.forEach(btn => {
+            btn.style.background = '#3f3f46';
+            btn.style.color = 'white';
+          });
+          sectionTitles.forEach(title => {
+            title.style.background = 'linear-gradient(135deg, #3f3f46, #52525b)';
+            title.style.boxShadow = '0 0 10px rgba(82, 82, 91, 0.7)';
+          });
+          noteTitles.forEach(title => {
+            title.style.background = 'linear-gradient(135deg, #064e3b, #022c22)';
+            title.style.boxShadow = '0 0 10px rgba(6, 78, 59, 0.7)';
+          });
+          break;
+        case 'void':
+          document.body.style.background = 'linear-gradient(to bottom right, #000000, #111827)';
+          header.style.background = '#111827';
+          h1.style.color = '#71717a';
+          toolbarButtons.forEach(btn => {
+            btn.style.background = '#3f3f46';
+            btn.style.color = 'white';
+          });
+          sectionTitles.forEach(title => {
+            title.style.background = 'linear-gradient(135deg, #3f3f46, #52525b)';
+            title.style.boxShadow = '0 0 10px rgba(82, 82, 91, 0.7)';
+          });
+          noteTitles.forEach(title => {
+            title.style.background = 'linear-gradient(135deg, #022c22, #011a13)';
+            title.style.boxShadow = '0 0 10px rgba(2, 44, 34, 0.7)';
+          });
+          break;
+        case 'steel':
+          document.body.style.background = 'linear-gradient(to bottom right, #1e293b, #334155)';
+          header.style.background = '#334155';
+          h1.style.color = '#a1a1aa';
+          toolbarButtons.forEach(btn => {
+            btn.style.background = '#475569';
+            btn.style.color = 'white';
+          });
+          sectionTitles.forEach(title => {
+            title.style.background = 'linear-gradient(135deg, #475569, #64748b)';
+            title.style.boxShadow = '0 0 10px rgba(100, 116, 139, 0.7)';
+          });
+          noteTitles.forEach(title => {
+            title.style.background = 'linear-gradient(135deg, #065f46, #064e3b)';
+            title.style.boxShadow = '0 0 10px rgba(6, 95, 70, 0.7)';
+          });
+          break;
+        case 'noir':
+          document.body.style.background = 'linear-gradient(to bottom right, #1a1a1a, #333333)';
+          header.style.background = '#333333';
+          h1.style.color = '#a1a1aa';
+          toolbarButtons.forEach(btn => {
+            btn.style.background = '#525252';
+            btn.style.color = 'white';
+          });
+          sectionTitles.forEach(title => {
+            title.style.background = 'linear-gradient(135deg, #525252, #737373)';
+            title.style.boxShadow = '0 0 10px rgba(115, 115, 115, 0.7)';
+          });
+          noteTitles.forEach(title => {
+            title.style.background = 'linear-gradient(135deg, #064e3b, #022c22)';
+            title.style.boxShadow = '0 0 10px rgba(6, 78, 59, 0.7)';
+          });
+          break;
+        case 'raven':
+          document.body.style.background = 'linear-gradient(to bottom right, #111827, #1e293b)';
+          header.style.background = '#1e293b';
+          h1.style.color = '#94a3b8';
+          toolbarButtons.forEach(btn => {
+            btn.style.background = '#475569';
+            btn.style.color = 'white';
+          });
+          sectionTitles.forEach(title => {
+            title.style.background = 'linear-gradient(135deg, #475569, #64748b)';
+            title.style.boxShadow = '0 0 10px rgba(100, 116, 139, 0.7)';
+          });
+          noteTitles.forEach(title => {
+            title.style.background = 'linear-gradient(135deg, #065f46, #064e3b)';
+            title.style.boxShadow = '0 0 10px rgba(6, 95, 70, 0.7)';
+          });
+          break;
+        default:
+          // Default theme is already set
+          document.body.style.background = 'linear-gradient(to bottom right, #111827, #1f2937)';
+          header.style.background = '#1f2937';
+          h1.style.color = '#8b5cf6';
+          toolbarButtons.forEach(btn => {
+            btn.style.background = '#2563eb';
+            btn.style.color = 'white';
+          });
+          sectionTitles.forEach(title => {
+            title.style.background = 'linear-gradient(135deg, #6366f1, #8b5cf6)';
+            title.style.boxShadow = '0 0 10px rgba(139, 92, 246, 0.7)';
+          });
+          noteTitles.forEach(title => {
+            title.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            title.style.boxShadow = '0 0 10px rgba(16, 185, 129, 0.7)';
+          });
+          break;
+      }
+      
+      state.currentTheme = theme;
+      
+      if (!initialLoad) {
+        saveToLocalStorage();
+      }
+      
+      // Hide theme list after selection
+      document.getElementById('theme-list').style.display = 'none';
+    }
+
+    // Setup event listeners
+    function setupEventListeners() {
+      // Tab button click
+      document.getElementById('tab-button').addEventListener('click', function() {
+        const tabInput = document.getElementById('tab-input');
+        tabInput.style.display = tabInput.style.display === 'block' ? 'none' : 'block';
+        document.getElementById('section-input').style.display = 'none';
+        document.getElementById('note-input').style.display = 'none';
+        document.getElementById('theme-list').style.display = 'none';
+      });
+      
+      // Section button click
+      document.getElementById('section-button').addEventListener('click', function() {
+        const sectionInput = document.getElementById('section-input');
+        sectionInput.style.display = sectionInput.style.display === 'block' ? 'none' : 'block';
+        document.getElementById('tab-input').style.display = 'none';
+        document.getElementById('note-input').style.display = 'none';
+        document.getElementById('theme-list').style.display = 'none';
+      });
+      
+      // Note button click
+      document.getElementById('note-button').addEventListener('click', function() {
+        const noteInput = document.getElementById('note-input');
+        noteInput.style.display = noteInput.style.display === 'block' ? 'none' : 'block';
+        document.getElementById('tab-input').style.display = 'none';
+        document.getElementById('section-input').style.display = 'none';
+        document.getElementById('theme-list').style.display = 'none';
+      });
+      
+      // Theme button click
+      document.getElementById('theme-button').addEventListener('click', function() {
+        const themeList = document.getElementById('theme-list');
+        themeList.style.display = themeList.style.display === 'block' ? 'none' : 'block';
+        document.getElementById('tab-input').style.display = 'none';
+        document.getElementById('section-input').style.display = 'none';
+        document.getElementById('note-input').style.display = 'none';
+      });
+      
+      // Close dropdowns when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.toolbar-button') && !e.target.closest('.hidden-inputs') && !e.target.closest('.theme-list')) {
+          document.getElementById('tab-input').style.display = 'none';
+          document.getElementById('section-input').style.display = 'none';
+          document.getElementById('note-input').style.display = 'none';
+          document.getElementById('theme-list').style.display = 'none';
+        }
+      });
+      
+      // Toggle edit mode
+      document.getElementById('toggle-all-edit').onclick = function() {
+        document.body.classList.toggle('global-edit');
+        render();
+      };
+    }
+
+    // Core functions
+    function addSection() {
+      const input = document.getElementById('section-name');
+      const name = input.value.trim();
+      if (!name) return;
+      const key = `${state.currentTab}_${name}`;
+      if (!state.sections[key]) state.sections[key] = [];
+      input.value = '';
+      document.getElementById('section-input').style.display = 'none';
+      render();
+    }
+
+    function addNote() {
+      const input = document.getElementById('note-name');
+      const name = input.value.trim();
+      if (!name) return;
+      const key = `${state.currentTab}_${name}`;
+      if (!state.notes[key]) state.notes[key] = { content: 'Type your notes here...', checklist: [] };
+      input.value = '';
+      document.getElementById('note-input').style.display = 'none';
+      render();
+    }
+
+    function addTab() {
+      const input = document.getElementById('new-tab');
+      const name = input.value.trim();
+      if (!name || state.allTabs.includes(name)) return;
+      state.allTabs.push(name);
+      state.currentTab = name;
+      input.value = '';
+      document.getElementById('tab-input').style.display = 'none';
+      render();
+    }
+
+    function switchTab(name) {
+      state.currentTab = name;
+      render();
+    }
+
+    // Initialize the app
+    init();
+  </script>
 </body>
 </html>
