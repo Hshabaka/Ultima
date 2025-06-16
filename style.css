@@ -1,0 +1,66 @@
+.ultima-bookmarks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+.ultima-bookmark-group {
+  padding: 0;
+  margin: 0 0 6px 0;
+}
+
+.ultima-group-header {
+  font-weight: bold;
+  font-size: 12px;
+  padding: 2px 2px;
+  margin-bottom: 2px;
+  color: #d4f5ff;
+  border: 1.5px solid rgba(0, 200, 255, 0.3);
+  border-radius: 25px;
+  box-shadow: 0 0 2px 0.6px rgba(0, 200, 255, 0.15);
+  background-color: rgba(0, 200, 255, 0.05);
+}
+
+.ultima-group-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 4px;
+}
+
+
+.ultima-group-links a {
+  display: inline-flex;                 /* ✅ العرض = على قد المحتوى */
+  align-items: center;
+  justify-content: flex-start;
+  gap: 3px;
+  text-decoration: none;
+  color: #c7eaff;
+  padding: 2px 6px;                    /* ✅ مساحة داخلية بسيطة فقط */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 11px;
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+  width: fit-content;                 /* ✅ يمنع التمدد */
+}
+
+
+.ultima-group-links a:hover {
+  border: 1px solid rgba(0, 200, 255, 0.4);
+  box-shadow: 0 0 2px rgba(0, 200, 255, 0.3);
+  background-color: rgba(0, 200, 255, 0.07);
+  transform: scale(1.03);
+  z-index: 1;
+}
+
+
+.ultima-group-links img {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+}
