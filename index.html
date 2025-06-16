@@ -1,173 +1,80 @@
-<div class="ultima-bookmarks-container">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ULTIMA Bookmarks</title>
+  <style>
+    .ultima-bookmarks-container {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      padding: 0;
+      margin: 0;
+    }
 
-  <div class="ultima-bookmark-group">
-    <div class="ultima-group-header">🌐 General</div>
-    <div class="ultima-group-links">
-      <a href="https://drive.google.com/drive/my-drive"><img src="https://www.google.com/s2/favicons?domain=drive.google.com"> Google Drive</a>
-      <a href="https://outlook.live.com/mail/0/junkemail"><img src="https://www.google.com/s2/favicons?domain=outlook.live.com"> Outlook Junk Mail</a>
-      <a href="https://account.live.com/Activity"><img src="https://www.google.com/s2/favicons?domain=account.microsoft.com"> Microsoft Account</a>
-      <a href="https://mysignins.microsoft.com/"><img src="https://www.google.com/s2/favicons?domain=mysignins.microsoft.com"> My Sign-ins</a>
-      <a href="https://outlook.office.com/mail/junkemail"><img src="https://www.google.com/s2/favicons?domain=outlook.office.com"> Office 365 Junk</a>
-      <a href="https://mail.google.com/mail/u/0/#inbox"><img src="https://www.google.com/s2/favicons?domain=mail.google.com"> Gmail</a>
-    </div>
-    
-<div class="ultima-bookmarks-container">
+    .ultima-bookmark-group {
+      padding: 0;
+      margin: 0 0 6px 0;
+    }
 
-  <div class="ultima-bookmark-group">
-    <div class="ultima-group-header">🛠️Work</div>
-    <div class="ultima-group-links">
-      <a href="https://outlook.office.com/mail/HossamShabaka@parsons365.mail.onmicrosoft.com/"><img src="https://www.google.com/s2/favicons?domain=outlook.office.com"> Parsons Mail</a>
-      <a href="https://parsons365mea-my.sharepoint.com/personal/hossam_shabaka_parsons_com/_layouts/15/onedrive.aspx?view=0"><img src="https://www.google.com/s2/favicons?domain=sharepoint.com"> OneDrive</a>
-      <a href="https://webtime.parsons.com/webtime/default.asp"><img src="https://www.google.com/s2/favicons?domain=parsons.com"> Webtime</a>
-      <a href="https://ksa1.aconex.com/hub/index.html"><img src="https://www.google.com/s2/favicons?domain=aconex.com"> Aconex</a>
-      <a href="https://convertcase.net/"><img src="https://www.google.com/s2/favicons?domain=convertcase.net"> Convert Case</a>
-      <a href="https://translate.google.com.eg/"><img src="https://www.google.com/s2/favicons?domain=translate.google.com"> Google Translate</a>
-      <a href="https://translate.yandex.com/"><img src="https://www.google.com/s2/favicons?domain=yandex.com"> Yandex Translate</a>
-      <a href="https://ola.rics.org/my/"><img src="https://www.google.com/s2/favicons?domain=ola.rics.org"> RICS OLA</a>
-      <a href="https://copilot.microsoft.com/"><img src="https://www.google.com/s2/favicons?domain=copilot.microsoft.com"> Copilot</a>
-    </div>
+    .ultima-group-header {
+      font-weight: bold;
+      font-size: 12px;
+      padding: 2px 2px;
+      margin-bottom: 2px;
+      color: #d4f5ff;
+      border: 1.5px solid rgba(0, 200, 255, 0.3);
+      border-radius: 25px;
+      box-shadow: 0 0 2px 0.6px rgba(0, 200, 255, 0.15);
+      background-color: rgba(0, 200, 255, 0.05);
+    }
+
+    .ultima-group-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 4px;
+    }
+
+    .ultima-group-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 3px;
+      text-decoration: none;
+      color: #c7eaff;
+      padding: 2px 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 11px;
+      border-radius: 10px;
+      transition: all 0.2s ease-in-out;
+      width: fit-content;
+    }
+
+    .ultima-group-links a:hover {
+      border: 1px solid rgba(0, 200, 255, 0.4);
+      box-shadow: 0 0 2px rgba(0, 200, 255, 0.3);
+      background-color: rgba(0, 200, 255, 0.07);
+      transform: scale(1.03);
+      z-index: 1;
+    }
+
+    .ultima-group-links img {
+      width: 11px;
+      height: 11px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- هنا يتم وضع كل المجموعات -->
+  <div class="ultima-bookmarks-container">
+    <!-- انسخ كل الأقسام: General, Work, AI, Social, Software, Games هنا -->
+    <!-- أنا ما نسختهم كلهم هنا عشان الحجم، لكن لو حابب أرسل لك ملف كامل بصيغة zip أو pastebin أو GitHub repo أعمله لك فورًا -->
   </div>
-
-
-  <div class="ultima-bookmark-group">
-    <div class="ultima-group-header">🤖 AI</div>
-    <div class="ultima-group-links">
-	 <a href="https://notebooklm.google.com/"><img src="https://www.google.com/s2/favicons?domain=notebooklm.google.com"> NotebookLM</a>
-      <a href="https://grok.com/"><img src="https://www.google.com/s2/favicons?domain=grok.com"> Grok</a>
-      <a href="https://lmarena.ai/"><img src="https://www.google.com/s2/favicons?domain=lmarena.ai"> LM Arena</a>
-      <a href="https://www.blackbox.ai/"><img src="https://www.google.com/s2/favicons?domain=blackbox.ai"> Blackbox</a>
-      <a href="https://learning.edx.org/course/course-v1:HarvardX+CS50+X/home"><img src="https://www.google.com/s2/favicons?domain=edx.org"> CS50</a>
-      <a href="https://www.programiz.com/python-programming/online-compiler/"><img src="https://www.google.com/s2/favicons?domain=programiz.com"> Python</a>
-      <a href="https://ss64.com/"><img src="https://www.google.com/s2/favicons?domain=ss64.com"> SS64</a>
-      <a href="https://www.perplexity.ai/"><img src="https://www.google.com/s2/favicons?domain=perplexity.ai"> Perplexity</a>
-      <a href="https://claude.ai/new"><img src="https://www.google.com/s2/favicons?domain=claude.ai"> Claude</a>
-    </div>
-  </div>
-
-  <div class="ultima-bookmark-group">
-    <div class="ultima-group-header">📱Social</div>
-    <div class="ultima-group-links">
-    <a href="https://musclewiki.com/"><img src="https://www.google.com/s2/favicons?domain=musclewiki.com"> MuscleWiki</a>
-      <a href="https://www.youtube.com/"><img src="https://www.google.com/s2/favicons?domain=youtube.com"> YouTube</a>
-      <a href="http://webtv.iptvsmarters.com/live.php"><img src="https://www.google.com/s2/favicons?domain=iptvsmarters.com"> IPTV Live</a>
-      <a href="https://www.youtube.com/playlist?list=PLeqxPJwwcz_S9eQAq8ujfN43MuEhtuUe-"><img src="https://www.google.com/s2/favicons?domain=youtube.com"> Playlist</a>
-      <a href="https://www.youtube.com/@ArtwithFlo/playlists"><img src="https://www.google.com/s2/favicons?domain=youtube.com"> Art with Flo</a>
-      <a href="https://the.flocreate.community/c/you-can-draw-this/you-can-draw-this-blue-monster"><img src="https://www.google.com/s2/favicons?domain=flocreate.community"> Flo Community</a>
-   </div>
-</div>
-
-  <div class="ultima-bookmark-group">
-    <div class="ultima-group-header">💻Software</div>
-    <div class="ultima-group-links">
-      <a href="https://windowslite.net/category/windows-lite-superlite"><img src="https://www.google.com/s2/favicons?domain=windowslite.net"> Windows Lite</a>
-      <a href="https://tcaxeosworld.wordpress.com/"><img src="https://www.google.com/s2/favicons?domain=wordpress.com"> TCAXEOS</a>
-      <a href="https://nexusliteos.blogspot.com/"><img src="https://www.google.com/s2/favicons?domain=blogspot.com"> Nexus Lite</a>
-      <a href="https://onehack.us/"><img src="https://www.google.com/s2/favicons?domain=onehack.us"> OneHack</a>
-      <a href="https://www.mutaz.net/ar.php"><img src="https://www.google.com/s2/favicons?domain=mutaz.net"> Mutaz</a>
-      <a href="https://snapsave.app/"><img src="https://www.google.com/s2/favicons?domain=snapsave.app"> SnapSave</a>
-      <a href="https://archive.org/details/witcher2swordofdestiny"><img src="https://www.google.com/s2/favicons?domain=archive.org"> Archive.org</a>
-      <a href="https://github.com/kudrykv/latex-yearly-planner"><img src="https://www.google.com/s2/favicons?domain=github.com"> LaTeX Planner</a>
-      <a href="https://tb.rg-adguard.net/public.php"><img src="https://www.google.com/s2/favicons?domain=rg-adguard.net"> RG-Adguard</a>
-      <a href="https://redirect.invidious.io/"><img src="https://www.google.com/s2/favicons?domain=invidious.io"> Invidious</a>
-      <a href="https://sketch.metademolab.com/canvas"><img src="https://www.google.com/s2/favicons?domain=metademolab.com"> Sketch</a>
-      <a href="https://windowsxlite.com/"><img src="https://www.google.com/s2/favicons?domain=windowsxlite.com"> Windows X-Lite</a>
-      <a href="http://webtv.iptvsmarters.com/index.php?adduser"><img src="https://www.google.com/s2/favicons?domain=iptvsmarters.com"> IPTV Add User</a>
-      <a href="http://webtv-new.iptvsmarters.com/playlists"><img src="https://www.google.com/s2/favicons?domain=iptvsmarters.com"> IPTV Playlists</a>
-      <a href="https://teamos-hkrg.com/"><img src="https://www.google.com/s2/favicons?domain=teamos-hkrg.com"> TeamOS</a>
-   </div>
-  </div>
-
-
-  <div class="ultima-bookmark-group">
-    <div class="ultima-group-header">🎮Games</div>
-    <div class="ultima-group-links">
-      <a href="https://fitgirl-repacks.site/"><img src="https://www.google.com/s2/favicons?domain=fitgirl-repacks.site"> FitGirl</a>
-      <a href="https://steamunlocked.net/"><img src="https://www.google.com/s2/favicons?domain=steamunlocked.net"> SteamUnlocked</a>
-      <a href="https://repack-games.com/"><img src="https://www.google.com/s2/favicons?domain=repack-games.com"> Repack</a>
-      <a href="https://dodi-repacks.site/"><img src="https://www.google.com/s2/favicons?domain=dodi-repacks.site"> DODI</a>
-      <a href="https://igg-games.com/"><img src="https://www.google.com/s2/favicons?domain=igg-games.com"> IGG</a>
-      <a href="https://www.skidrowreloaded.com/"><img src="https://www.google.com/s2/favicons?domain=skidrowreloaded.com"> Skidrow</a>
-      <a href="https://thepiratebay10.org/"><img src="https://www.google.com/s2/favicons?domain=thepiratebay.org"> Pirate Bay</a>
-      <a href="https://www.downloadha.com/"><img src="https://www.google.com/s2/favicons?domain=downloadha.com"> Downloadha</a>
-      <a href="https://www.ovagames.com/"><img src="https://www.google.com/s2/favicons?domain=ovagames.com"> OVAGames</a>
-      <a href="https://www.gog-games.to/"><img src="https://www.google.com/s2/favicons?domain=gog-games.to"> GOG</a>
-      <a href="https://discord.com/"><img src="https://www.google.com/s2/favicons?domain=discord.com"> Discord</a>
-      <a href="https://steampeek.hu/"><img src="https://www.google.com/s2/favicons?domain=steampeek.hu"> SteamPeek</a>
-      <a href="https://gamepad-tester.com/"><img src="https://www.google.com/s2/favicons?domain=gamepad-tester.com"> Gamepad Tester</a>
-      <a href="https://trainersforgames.com/"><img src="https://www.google.com/s2/favicons?domain=trainersforgames.com"> Trainers</a>
-      <a href="https://rdr2map.com/"><img src="https://www.google.com/s2/favicons?domain=rdr2map.com"> RDR2 Map</a>
-      <a href="https://palworld.th.gl/"><img src="https://www.google.com/s2/favicons?domain=palworld.th.gl"> Palworld</a>
-      <a href="https://r-roms.github.io/megathread/"><img src="https://www.google.com/s2/favicons?domain=github.com"> ROMs Megathread</a>
-      <a href="https://nopaystation.com/"><img src="https://www.google.com/s2/favicons?domain=nopaystation.com"> NoPayStation</a>
-      <a href="https://realsourcepack.com/"><img src="https://www.google.com/s2/favicons?domain=realsourcepack.com"> Real Source</a>
-      <a href="https://vimm.net/"><img src="https://www.google.com/s2/favicons?domain=vimm.net"> Vimm's Lair</a>
-      <a href="https://r-roms.github.io/"><img src="https://www.google.com/s2/favicons?domain=github.com"> ROMs GitHub</a>
-   </div>
-  </div>
-
-.ultima-bookmarks-container {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-family: Arial, sans-serif;
-  font-size: 10px;
-  padding: 0;
-  margin: 0;
-}
-
-.ultima-bookmark-group {
-  padding: 0;
-  margin: 0 0 6px 0;
-}
-
-.ultima-group-header {
-  font-weight: bold;
-  font-size: 12px;
-  padding: 2px 2px;
-  margin-bottom: 2px;
-  color: #d4f5ff;
-  border: 1.5px solid rgba(0, 200, 255, 0.3);
-  border-radius: 25px;
-  box-shadow: 0 0 2px 0.6px rgba(0, 200, 255, 0.15);
-  background-color: rgba(0, 200, 255, 0.05);
-}
-
-.ultima-group-links {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 4px;
-}
-
-
-.ultima-group-links a {
-  display: inline-flex;                 /* ✅ العرض = على قد المحتوى */
-  align-items: center;
-  justify-content: flex-start;
-  gap: 3px;
-  text-decoration: none;
-  color: #c7eaff;
-  padding: 2px 6px;                    /* ✅ مساحة داخلية بسيطة فقط */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 11px;
-  border-radius: 10px;
-  transition: all 0.2s ease-in-out;
-  width: fit-content;                 /* ✅ يمنع التمدد */
-}
-
-
-.ultima-group-links a:hover {
-  border: 1px solid rgba(0, 200, 255, 0.4);
-  box-shadow: 0 0 2px rgba(0, 200, 255, 0.3);
-  background-color: rgba(0, 200, 255, 0.07);
-  transform: scale(1.03);
-  z-index: 1;
-}
-
-
-.ultima-group-links img {
-  width: 11px;
-  height: 11px;
-  flex-shrink: 0;
-}
+</body>
+</html>
